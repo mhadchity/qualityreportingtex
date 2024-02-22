@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Reporting de Défaut Qualité</title>
+</head>
+<body>
+    <h1>Formulaire de Reporting de Défaut Qualité</h1>
+    <form id="defautForm">
+        <label for="reference">Référence de l'article:</label><br>
+        <input type="text" id="reference" name="reference"><br>
+
+        <label for="taille">Taille:</label><br>
+        <input type="text" id="taille" name="taille"><br>
+
+        <label for="couleur">Couleur:</label><br>
+        <input type="text" id="couleur" name="couleur"><br>
+
+        <label for="lot">Lot/Numéro de série:</label><br>
+        <input type="text" id="lot" name="lot"><br>
+
+        <label for="dateProduction">Date de production:</label><br>
+        <input type="date" id="dateProduction" name="dateProduction"><br>
+
+        <label for="typeDefaut">Type de défaut:</label><br>
+        <input type="text" id="typeDefaut" name="typeDefaut"><br>
+
+        <label for="descriptionDefaut">Description du défaut:</label><br>
+        <textarea id="descriptionDefaut" name="descriptionDefaut"></textarea><br>
+
+        <label for="emplacementDefaut">Emplacement du défaut sur l'article:</label><br>
+        <textarea id="emplacementDefaut" name="emplacementDefaut"></textarea><br>
+
+        <label for="impactQualite">Impact sur la qualité:</label><br>
+        <textarea id="impactQualite" name="impactQualite"></textarea><br>
+
+        <label for="actionsCorrectives">Actions Correctives Prises:</label><br>
+        <textarea id="actionsCorrectives" name="actionsCorrectives"></textarea><br>
+
+        <label for="mesuresPreventives">Mesures Préventives:</label><br>
+        <textarea id="mesuresPreventives" name="mesuresPreventives"></textarea><br>
+
+        <label for="observations">Observations Additionnelles:</label><br>
+        <textarea id="observations" name="observations"></textarea><br>
+
+        <input type="button" value="Exporter vers Excel" onclick="exportToExcel()">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script>
+        function exportToExcel() {
+            var formData = new FormData(document.getElementById('defautForm'));
+            var jsonData = {};
+            
+            // Récupération des données du formulaire
+            formData.forEach(function(value, key){
+                jsonData[key] = value;
+            });
+            
+            // Création du workbook et ajout des données
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.json_to_sheet([jsonData]);
+            XLSX.utils.book_append_sheet(wb, ws, "Défaut Qualité");
+
+            // Enregistrement du fichier Excel
+            var filePath = 'C:\\Users\\mhadchity\\Desktop\\Qualité\\defaut_qualite.xlsx';
+            XLSX.writeFile(wb, filePath);
+        }
+    </script>
+</body>
+</html>
